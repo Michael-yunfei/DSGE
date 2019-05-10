@@ -1,0 +1,11 @@
+# Tips and resource collection
+
+FRED-MD: A Monthly Database for Macroeconomic Research
+paper: http://www.columbia.edu/~sn2294/papers/freddata.pdf
+dataset: https://research.stlouisfed.org/econ/mccracken/fred-databases/
+
+FRED-R-function
+http://sboysel.github.io/fredr/articles/fredr.html
+
+R - cheatsheet
+https://www.rstudio.com/resources/cheatsheets/
