@@ -9,3 +9,27 @@ http://sboysel.github.io/fredr/articles/fredr.html
 
 R - cheatsheet
 https://www.rstudio.com/resources/cheatsheets/
+
+png("myplot.png", width=4, height=4, units="in", res=300)
+par(mar=c(4,4,1,1))
+plot(x,y,col=rgb(0,0,0,0.03), pch=".", cex=2)
+dev.off() #only 129kb in size
+
+R - timeseries plot
+https://cran.r-project.org/web/packages/timeSeries/vignettes/timeSeriesPlot.pdf
+
+pdf("/Users/Michael/Documents/DSGE/Figures/us_realgdp.pdf",
+      width = 9, height = 5)
+par(mfrow = c(1, 2), cex = 0.8)
+plot(us_ts$logGDP, main = "Log of US Real GDP", ylab = "Log of GDP",
+              xlab = "Date")
+grid(col = '#212A2F')
+plot(diff(us_ts$logGDP), main = "Growth Rate of US Real GDP",
+            ylab = "Growth Rate", xlab = "Date")
+grid(col = '#212A2F')
+dev.off()
+
+NA
+which(is.na(us_ts$logGDPC1))
+
+# use zoo or xts: apply acf to core data
