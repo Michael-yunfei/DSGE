@@ -75,6 +75,7 @@ tail(us_ts)
 plot(us_ts$GDPC1)
 
 
+# Plot the usd gdp time sereis
 pdf("/Users/Michael/Documents/DSGE/Figures/us_realgdp.pdf",
       width = 9, height = 5)
 par(mfrow = c(1, 2), cex = 0.8)
@@ -87,7 +88,7 @@ grid(col = '#212A2F')
 abline(h = 0, col = '#E8AEED')
 dev.off()
 
-# Check the stationarity of growth rate of gdp
+# Check the stationarity of growth rate of real gdp
 acf(coredata(us_ts$GDPC1), lag.max = 100) # more like MA
 pacf(coredata(us_ts$GDPC1), lag.max = 20)  # not ar
 acf(coredata(us_ts$logGDPC1), lag.max = 100)
@@ -96,28 +97,27 @@ acf(coredata(diff(us_ts$logGDPC1)), lag.max = 20,
 pacf(coredata(diff(us_ts$logGDPC1)), lag.max = 20,
             main = "PACF for RGDP Growth Rate")
 
+# for I(1) process, acf declines linearly
+# for I(0) process, acf declines exponentially
+
 # check for the unit root
 install.packages("urca")
 library(urca)
+# library(stargazer)
 ar(coredata(us_ts$logGDPC1), order.max = 10, aic = TRUE)
-ur.df(coredata(us_ts$logGDPC1), lags = 1, type = "drift")
-ar(coredata(diff(us_ts$logGDPC1)), order.max = 10, aic = TRUE)
-ur.df(coredata(diff(us_ts$logGDPC1)), lags = 3)  # -4.5315, no unit root
+us_gdp_ur <- ur.df(coredata(us_ts$logGDPC1), selectlags='AIC', type="trend")
+summary(us_gdp_ur)
+plot(us_gdp_ur)
+
+us_gdp_ur2 <- ur.df(coredata(us_ts$logGDPC1), selectlags='AIC', type='drift')
+summary(us_gdp_ur2)
+plot(us_gdp_ur2)
 
 # do the filter
 install.packages("mFilter")
 library(mFilter)
 plot(hpfilter(us_ts$logGDPC1, freq = 1600))
 plot(hpfilter(us_ts$logGDPC1, freq = 1600, drift = TRUE))
-
-
-
-
-
-
-
-
-
 
 
 
