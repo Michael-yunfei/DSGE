@@ -224,20 +224,163 @@ Final step, substitute (2.4) into (2.3) to get:
       & = y_0 + \mu t + \psi(1) \sum_{s=1}^t \varepsilon_s + \frac{\psi(L) - \psi(1)}{(1 - L)} \varepsilon_t
 \end{align}
 
-I am sorry to reclaim that equation (2.6) will be the \textbf{key function} for almost all our analysis of time series data. The intuition and summary on (2.6) is given in Figure 2.2.
+I am sorry to reclaim that equation (2.6) will be the \textbf{key function} for almost all our analysis of time series data. The intuition and summary on (2.6) is given in Figure 2.1.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.69\textwidth]{ydecom}
   \caption{Intuition on $y_t$ decomposition}
 \end{figure}
 
+In equation (2.6), if $\psi(1) > 1$, then the time series is characterised by an explosive path; if it is less than 1, we have explained that the time series can be modeled with ARMA process; if it is equal to 1, then the data-generating process is a random walk.
 
+\subsection{Random Walk}
 
+It's worth to know \textit{random walk} process well before the unit root test. A \textit{pure random walk} without a drift is defined as
+\begin{align}
+  y_t = y_{t-1} + \varepsilon_t = y_0 + \sum_{s=1}^t \varepsilon_t ,
+\end{align}
+where $\{\varepsilon_t\}$ is an i.i.d. process. With assuming $y_0 = 0$, it is trivial to show that (1) $E[y_t] = 0$ and $var(y_t) = t \sigma^2$. Suppose that the data-generating process for $\{y_t\}$ is
+\begin{align}
+  y_t = y_{t-1} + \varepsilon_t, \ \varepsilon_t = \rho \varepsilon_{t-1} + \xi_t,
+\end{align}
+where $|\rho| < 1$ and $\xi_t$ is a white noise process instead. Then, $\{y_t\}$ is \textit{not} a random walk process, but it still has a unit root and is a first-order non-stationary process. Let us now consider the case of a \textit{random walk with drift},
+\begin{align}
+  y_t = \mu + y_{t-1} + \varepsilon_t = y_0 + \mu t + \sum_{s=1}^t \varepsilon_t ,
+\end{align}
+where $\{\varepsilon_t \}$ is white noise.
 
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../Figures/NonStation}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../Figures/UnitRootSm}
+  \end{subfigure}
+  \caption{Simulated Times Series Plot}
+\end{figure}
 
+The simulated time series paths in Figure 2.2 are very informative. By ocular econometrics, it should be evident that the statistical discrimination between a deterministic trend contaminated with noise and a random walk with drift is not easy based on the left panel of Figure 2.2. From the right panel, we can expect that time series simulated based on ARCH model has higher volatility.
 
+\subsection{Unit Root Test}
 
+Recall the decomposition of a time series $\{y_t \}$ as in equation (1.1). Now we want to investigate if the process $\{z_t\}$ does contain a unit root,
+\begin{align*}
+  z_t = y_t - TD_t.
+\end{align*}
+Hence, a deterministic trend is removed from the original series first and the residuals are tested for a unit root. \cite{dickey1979distribution} proposed the following test regression that is delineated from an assumed $AR(1)$-processes of $\{z_t\}$:
+\begin{align}
+  z_t & = \theta z_{t-1} + \varepsilon_t\\
+  z_t - z_{t-1} & = \theta z_{t-1} - z_{t-1} + \varepsilon_t \\
+  \Delta z_t & = (\theta - 1) z_{t-1} + \varepsilon_t \\
+  \Delta z_t & = \pi z_{t-1} + \varepsilon_t
+\end{align}
+Under the null hypothesis of a unit root, $\pi = 0$, which is equivalent to $\theta = 1$ and the alternative is a trend stationary process; i.e., $\pi < 0$ or $\theta < 1$. However, in reality, neither the existence nor the form of deterministic component is known a \textit{priori}. Hence, we have to choose from the set of deterministic variables $DV_t$ the one that best suits the data-generating process.
 
+Now we consider the equation with deterministic regressors $DR_t$,
+\begin{align}
+  \Delta y_t = \tau' DR_t + \pi y_{t-1} + u_t,
+\end{align}
+where $\tau$ is the coefficient vector of the deterministic part and $\{u_t\}$ assigns an error term. A weakness of the original DF test is that it does not take a possible serial correlation of the error process $\{u_t\}$ into account. If the noise component is an $AR(p)$-process, it can be shown that the test regression
+\begin{align}
+  \Delta y_t = \tau' DR_t + \pi y_{t-1} + \sum_{j=1}^k \gamma_j \Delta_{t-j} + u_t, \ with \ k = p - 1
+\end{align}
+ensures that the serial correlation in the error is removed. This test regression is called the \textit{augmented Dickey-Fuller} (ADF) test.
+
+With the help of AIC or BIC, we can decide the lag order $k$. To do the unit root test, we need first estimate the encompassing ADF-test equation
+\begin{align}
+  \Delta y_t = \beta_1 + \beta_2 t + \pi y_{t-1} + \sum_{j=1}^k \gamma_j \Delta y_{t-j} + u_t
+\end{align}
+Then, the further steps to be taken are dependent on this estimation until one can conclude that the series is
+\begin{itemize}
+  \item stationary around a zero mean
+  \item stationary around a non-zero mean
+  \item stationary around a linear trend
+  \item contains a unit root with zero drift
+  \item contains a unit root with non-zero drift.
+\end{itemize}
+
+We now apply the ADF test to the US real GDP time series. First, we fit the following model:
+\begin{align*}
+  \Delta y_t = \beta_1 + \beta_2 t + \pi y_{t-1} + \sum_{j=1}^k \gamma_j \Delta y_{t-j} + u_t
+\end{align*}
+The lag orders are selected based on AIC. Table 2.1 gives the regression results
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \caption{ADF test: Regression Results}
+  \begin{tabular}{lcccc}
+    \hline
+    \hline
+    Coefficients & Estimate & Std.Error & t value & Pr(>|t|) \\
+    \hline
+    $\beta_1$ & 0.0924 & 0.0645 & 1.431 & 0.153 \\
+    $\pi$ & -0.0110 & 0.0083 & -1.325 & 0.186 \\
+    $\beta_2$ & 0.0000 & 0.0000& 1.125 & 0.261 \\
+    $\gamma_1$ & 0.3481 & 0.0569 & 6.119 & 0.0000 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+For the joint test, here is the result:
+\begin{table}[H]
+  \renewcommand{\arraystretch}{1.2}
+  \centering
+  \caption{ADF test: key statistics}
+  \begin{tabular}{lccccc}
+    \hline
+    \hline
+    & & &  \multicolumn{3}{c}{Critical Values} \\
+    \cline{4-6}
+    Hypothesis & Test &  Value & $1\%$ & $5\%$ & $10\%$ \\
+    $\pi = 0$ & $\tau_3$ & -1.3248 & -3.98 & -3.42 & -3.13 \\
+    $\beta_1 = \beta_2 = \pi = 0$ & $\phi_2$ & 19.4217 & 6.15 & 4.71 & 4.05 \\
+    $\beta_2 = \pi = 0$ & $\phi_3$ & 2.7346 & 8.34 &  6.30 &  5.36 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Based on the result, $\phi_3 = 2.7346$ which implies that we could not reject $\beta_2 = \pi = 0$. This means that real GDP does contain a unit root. This finding is reiterated by the value of $\tau_3 = -1.3248$, which implies we could not reject null that $\pi = 0$. Therefore, a unit root cannot be rejected. Next, it is tested whether the consumption series is a random walk with or without drift:
+\begin{align*}
+  \Delta y_t = \beta_1 + \pi y_{t-1} + \sum_{j=1}^k \gamma_j \Delta y_{t-j} + u_t
+\end{align*}
+
+The results are presented in table 2.3 and 2.4.
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \caption{ADF test: Regression Results}
+  \begin{tabular}{lcccc}
+    \hline
+    \hline
+    Coefficients & Estimate & Std.Error & t value & Pr(>|t|) \\
+    \hline
+    $\beta_1$ & 0.0202& 0.0075 &  2.701 & 0.00735  \\
+    $\pi$ & -0.0017 & 0.0008 &  -2.049 &  0.04140  \\
+    $\gamma_1$ & 0.3403&  0.0565 &  6.024 & 0000 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \renewcommand{\arraystretch}{1.2}
+  \centering
+  \caption{ADF test: key statistics}
+  \begin{tabular}{lccccc}
+    \hline
+    \hline
+    & & &  \multicolumn{3}{c}{Critical Values} \\
+    \cline{4-6}
+    Hypothesis & Test &  Value & $1\%$ & $5\%$ & $10\%$ \\
+    $\pi = 0$ & $\tau_2$ & -2.0491 & -3.44 & -2.87 &  -2.57 \\
+    $\beta_1 = \pi = 0$ & $\phi_1$ & 28.4718 &  6.47  & 4.61 &  3.79  \\
+    \hline
+  \end{tabular}
+\end{table}
+
+In the end, we can state that US real GDP data behaves like a \textit{ransom walk with a drift}. The study by \cite{holden1994unit} also suggests that the consumption series behaves like a \textit{pure random walk}. The research by \cite{harvey2003great} also found that the log consumption: output and log investment:output great ratios are not, in general, stationary. The findings are thus not favourable to the neoclassical stochastic growth hypotheses \citep{harvey2003great}. Further more,  their findings are also in favour of growth and real business cycle models that do not assume exogenous and permanent stochastic productivity shocks, which lead to the common trend hypothesis.
 
 
 \newpage

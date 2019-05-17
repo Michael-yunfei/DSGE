@@ -117,19 +117,54 @@ dev.off()
 # The GDP growth is more like random walk with drift
 
 
+###############################################################################
+# Unit Root with series correlation
+###############################################################################
+set.seed(95765)
+
+xi <- rnorm(501, 0, 1)
+rho <- 0.32
+varepsilon <- c(0:500)
+y_unit <- c(0:500)
+y_unit[1] <- 1
+
+for (i in 2:length(xi)){
+  varepsilon[i] <- rho * varepsilon[i-1] + xi[i]
+  y_unit[i] <- 0.5 + y_unit[i-1] + varepsilon[i]
+}
+
+y_random <- c(0:500)
+y_random[1] <- 1
+
+for (i in 2:length(xi)) {
+  y_random[i] <- 0.5 + y_random[i-1] + xi[i]
+}
+
+omega <- 0.642
+alpha <- 0.569
+ep_initial <- sqrt(omega/(1-alpha))
+sigma <- c(0:500)
+sigma[1] <- ep_initial^2
+epsilon <- c(0:500)
+epsilon[1] <- ep_initial
+y_arch <- c(0:500)
+y_arch[1] <- 1
+
+for (i in 2:length(xi)){
+  sigma[i] <- omega + alpha * (epsilon[i-1])^2
+  epsilon[i] <- sqrt(sigma[i]) * xi[i]
+  y_arch[i] <- 0.5 + y_arch[i-1] + epsilon[i]
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+pdf('./Figures/UnitRootSm.pdf', width=8, height=6)
+plot.ts(y_unit, col='black', lty = 1, ylab='Simulated Time Series Y',
+                main='Time Series Simulation Plot', lwd=1, ylim=c(0, 250))
+lines(y_random, col='red', lty = 2, lwd=1.5)
+lines(y_arch, col='blue', lty = 3, lwd=2)
+legend(200, 60, legend=c('Unit Root Y with series correlation',
+            'Random Walk Y with drift', 'Arch Unit Root Y'),
+      col=c('black', 'red', 'blue'), lty=1:3)
+dev.off()
 
 # End of Code
