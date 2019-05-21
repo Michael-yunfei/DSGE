@@ -83,7 +83,33 @@ plot(us_ts$logGDPC1, main = "Log of US Real GDP", ylab = "Log of GDP",
               xlab = "Date")
 grid(col = '#212A2F')
 plot(diff(us_ts$logGDPC1), main = "Growth Rate of US Real GDP",
-            ylab = "Growth Rate", xlab = "Date")
+            ylab = "Growth Rate", xlab = "Date", ylim=c(-0.25, 0.25))
+grid(col = '#212A2F')
+abline(h = 0, col = '#E8AEED')
+dev.off()
+
+# Plot the usd investment time sereis
+pdf("/Users/Michael/Documents/DSGE/Figures/us_Inv.pdf",
+      width = 9, height = 5)
+par(mfrow = c(1, 2), cex = 0.8)
+plot(us_ts$logGPDIC1, main = "Log of US Real Investment", ylab = "Log of Investment",
+              xlab = "Date")
+grid(col = '#212A2F')
+plot(diff(us_ts$logGPDIC1), main = "Growth Rate of US Real Investment",
+            ylab = "Growth Rate", xlab = "Date", ylim=c(-0.25, 0.25))
+grid(col = '#212A2F')
+abline(h = 0, col = '#E8AEED')
+dev.off()
+
+# Plot the us real consumption time sereis
+pdf("/Users/Michael/Documents/DSGE/Figures/us_Cons.pdf",
+      width = 9, height = 5)
+par(mfrow = c(1, 2), cex = 0.8)
+plot(us_ts$logPCECC96, main = "Log of US Real Consumption", ylab = "Log of Consumption",
+              xlab = "Date")
+grid(col = '#212A2F')
+plot(diff(us_ts$logPCECC96), main = "Growth Rate of US Consumption",
+            ylab = "Growth Rate", xlab = "Date", ylim=c(-0.25, 0.25))
 grid(col = '#212A2F')
 abline(h = 0, col = '#E8AEED')
 dev.off()
@@ -240,7 +266,7 @@ plot(djiq_ts$logClose, main = "Dow Jones Industrial Average", ylab = "Log of Clo
               xlab = "Date")
 grid(col = '#212A2F')
 plot(diff(djiq_ts$logClose), main = "Return of DJIA",
-            ylab = "Return", xlab = "Date")
+            ylab = "Return", xlab = "Date", ylim=c(-0.3, 0.3))
 grid(col = '#212A2F')
 abline(h = 0, col = '#E8AEED')
 dev.off()
@@ -252,7 +278,7 @@ plot(spx_ts$logClose, main = "S&P 500", ylab = "Log of Close Price",
               xlab = "Date")
 grid(col = '#212A2F')
 plot(diff(spx_ts$logClose), main = "Return of S&P 500",
-            ylab = "Return", xlab = "Date")
+            ylab = "Return", xlab = "Date", ylim=c(-0.3, 0.3))
 grid(col = '#212A2F')
 abline(h = 0, col = '#E8AEED')
 dev.off()
@@ -264,7 +290,7 @@ plot(ndq_ts$logClose, main = "Nasdaq Composite", ylab = "Log of Close Price",
               xlab = "Date")
 grid(col = '#212A2F')
 plot(diff(ndq_ts$logClose), main = "Return of Nasdaq Composite",
-            ylab = "Return", xlab = "Date")
+            ylab = "Return", xlab = "Date", ylim=c(-0.3, 0.3))
 grid(col = '#212A2F')
 abline(h = 0, col = '#E8AEED')
 dev.off()
@@ -295,6 +321,8 @@ plot(us_spx_ur)
 us_spx_ur2 <- ur.df(coredata(ndq_ts$logClose), lags=10, selectlags='AIC', type="drift")
 summary(us_spx_ur2)
 plot(us_spx_ur2)
+
+# Conclusion: random walk with drift
 
 
 
