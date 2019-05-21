@@ -382,6 +382,66 @@ The results are presented in table 2.3 and 2.4.
 
 In the end, we can state that US real GDP data behaves like a \textit{ransom walk with a drift}. The study by \cite{holden1994unit} also suggests that the consumption series behaves like a \textit{pure random walk}. The research by \cite{harvey2003great} also found that the log consumption: output and log investment:output great ratios are not, in general, stationary. The findings are thus not favourable to the neoclassical stochastic growth hypotheses \citep{harvey2003great}. Further more,  their findings are also in favour of growth and real business cycle models that do not assume exogenous and permanent stochastic productivity shocks, which lead to the common trend hypothesis.
 
+We now apply the ADF test to the US real gross private domestic investment (GPDI) by fitting the following model first,
+\begin{align*}
+  \Delta y_t = \beta_1 + \beta_2 t + \pi y_{t-1} + \sum_{j=1}^k \gamma_j \Delta y_{t-j} + u_t
+\end{align*}
+The lag orders are selected based on AIC. Table 2.1 gives the regression results
+\begin{table}[H]
+  \renewcommand{\arraystretch}{1.2}
+  \centering
+  \caption{ADF test: Regression Results - USGPDI}
+\begin{tabular}{lccccc}
+  \hline
+Coefficients & Estimate & Std. Error & t value & Pr \\
+\hline
+(Intercept)  & 0.4210983 & 0.1244785 &  3.383 & 0.000827 &***   \\
+z.lag.1    & -0.0754591&  0.0227653 & -3.315 &0.001047 &**  \\
+tt         &  0.0007324 & 0.0002246  & 3.262& 0.001254& **   \\
+z.diff.lag1 & 0.1855826 & 0.0593962  & 3.124& 0.001981& **  \\
+z.diff.lag2 & 0.1413190 & 0.0603198 &  2.343& 0.019887 & *   \\
+z.diff.lag3  & 0.0664264 &  0.0586191 & 1.133 & 0.258172   \\
+z.diff.lag4 & -0.1627121&  0.0578142 & -2.814 & 0.005258 & ** \\
+\hline
+\end{tabular}
+\end{table}
+For the joint test, here is the result:
+\begin{table}[H]
+  \renewcommand{\arraystretch}{1.2}
+  \centering
+  \caption{ADF test: key statistics - USGPDI}
+  \begin{tabular}{lccccc}
+    \hline
+    \hline
+    & & &  \multicolumn{3}{c}{Critical Values} \\
+    \cline{4-6}
+    Hypothesis & Test &  Value & $1\%$ & $5\%$ & $10\%$ \\
+    $\pi = 0$ & $\tau_3$ & -3.3146 & -3.98 & -3.42 & -3.13 \\
+    $\beta_1 = \beta_2 = \pi = 0$ & $\phi_2$ & 6.9544  & 6.15 & 4.71 & 4.05 \\
+    $\beta_2 = \pi = 0$ & $\phi_3$ & 5.503  & 8.34 &  6.30 &  5.36 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \newpage
 \bibliography{/Users/Michael/Documents/DSGE/dsge.bib}
