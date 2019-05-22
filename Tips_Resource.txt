@@ -33,3 +33,6 @@ NA
 which(is.na(us_ts$logGDPC1))
 
 # use zoo or xts: apply acf to core data
+
+
+# don't name figures with _ or black,
