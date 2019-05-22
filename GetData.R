@@ -101,6 +101,8 @@ grid(col = '#212A2F')
 abline(h = 0, col = '#E8AEED')
 dev.off()
 
+plot((diff(us_ts$logGPDIC1))^2)
+
 # Plot the us real consumption time sereis
 pdf("/Users/Michael/Documents/DSGE/Figures/us_Cons.pdf",
       width = 9, height = 5)
