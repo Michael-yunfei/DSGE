@@ -200,17 +200,116 @@ Before modeling investment with univariate volatility modeling, let's check the 
   \end{subfigure}
 \end{figure}
 
+It's very easy to spot that US real investment has higher volatility compared to real GDP and consumption. Now, if we put investment and financial market index plots together, the pattern is more clear.
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.85\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../Figures/usInv}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.85\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../Figures/usDJIA}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.85\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../Figures/usSPX}
+  \end{subfigure}
+\end{figure}
 
+\section{The Stylized Facts of Investment}
 
+Compare the volatility of real investment with SP500, we can see that real investment also has the volatility clusters. It should not be surprised that the volatility of real investment is lower than SP500 considering the investment activities in stock market is more intense.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../Figures/VolatInvSP500}
+\end{figure}
+It's very interesting that the autocorrelation for real investment volatility remains longer than that of SP500 based on the next figure. Since we are using quarterly time series, the volatility pattern of SP500 almost die out in such a long time window.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{../Figures/AcfInvSP500}
+\end{figure}
 
+Considering the there is significant autocorrelation for the volatility of investment, we model it with the following GARCH model first
+\begin{align}
+  I_t = \sigma_t \varepsilon_t; \ \ \ \sigma_t^2 = \omega + \alpha I_{t-1}^2
+\end{align}
+Table 4.1 gives the estimation results based on the normal distribution.
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \caption{ARCH estimation for volatility of Investment}
+\begin{tabular}{lccccc}
+  \hline
+         & Estimate & Std. Error & t value & Pr(\textgreater{}|t|)  \\
+         \hline
+ $\omega$    &14.3605      &1.6711   & 8.593 & \textless 2e-16 & ***   \\
+$\alpha$    & 0.3690   &    0.1102    & 3.347 & 0.000817 & ***  \\
+ \hline
+\end{tabular}
+\end{table}
 
+If we fit the GARCH model, we should fit
+\begin{align}
+  I_t = \sigma_t \varepsilon_t; \ \ \ \sigma_t^2 = \omega + \alpha I_{t-1}^2 + \beta \sigma_{t-1}^2
+\end{align}
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \caption{GARCH estimation for volatility of Investment}
+\begin{tabular}{lccccc}
+  \hline
+         & Estimate &  Std. Error & t value & Pr(\textgreater{}|t|) \\
+         \hline
+$\omega$& 0.0001949 &  0.0001046  &  1.864 & 0.06239 &. \\
+ $\alpha$ & 0.1970969 &  0.0663127  &  2.972 & 0.00296& ** \\
+ $\beta$ & 0.7128599 &  0.0926045 &   7.698 &1.38e-14& *** \\
+ \hline
+\end{tabular}
+\end{table}
 
+If we fit the model based on (4.2) with student-t distribution, we get the following results.
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \caption{GARCH estimation for volatility of Investment (Student-t)}
+\begin{tabular}{lccccc}
+  \hline
+         & Estimate &  Std. Error & t value & Pr(\textgreater{}|t|) \\
+         \hline
+ $\omega$& 0.000145  & 9.345e-05  &  1.548 & 0.12150 \\
+$\alpha$&0.2309  & 0.08157&  2.830 & 0.00465 &** \\
+$\beta$& 0.7195 & 0.08704  &  8.267 &2.22e-16 &*** \\
+shape &  6.148 &  2.139 &    2.874 & 0.00405 & ** \\
+\hline
+\end{tabular}
+\end{table}
 
+Considering all coefficients are significant, we have to provide the interpretations behind this GARCH model. Again, let's start it from the equation
+\begin{align}
+  I_t = \sigma_t \varepsilon_t; \ \ \ \sigma_t^2 = \omega + \alpha I_{t-1}^2 + \beta \sigma_{t-1}^2,
+\end{align}
+where $I_t$ is the investment growth rate, or investment innovation at time $t$. It is derived by de-mean the data:
+\begin{align}
+  I_t = Y_t - E[Y_t | \mathcal{F}_{t-1}]
+\end{align}
+The investment shock or investment innovation will affect the investment growth rate $Y_t$ based one (4.4). Although we don’t know $I_t$, we can further assume it can be represented by $\sigma_t$ and $\varepsilon_t$, where $\varepsilon_t \sim i.i.d(0, 1)$. That's why we have
+\begin{align}
+  I_t = \sigma_t \varepsilon_t
+\end{align}
 
+What's the economic interpretation of $\sigma_t$ and $\varepsilon_t$? We know that $\sigma_t$ is the conditional volatility and $\varepsilon_t$ is the exogenous shocks. Now, let's write the full model
+\begin{align}
+  Y_t & = E[Y_t | \mathcal{F}_{t-1}] + I_t \\
+  I_t & = \sigma_t \varepsilon_t \\
+  \sigma_t^2 & = \omega + \alpha I_{t-1}^2 + \beta \sigma_{t-1}^2
+\end{align}
 
+In words, the investment growth rate $Y_t$ depends on the conditional mean and investment innovation shocks. Intuitively, this is aligned with our common sense where anyone will investment based on the past trend (conditional mean) and technology innovations. The technology innovations then can be decomposed into two parts: conditional volatility $\sigma_t$ and exogenous technology shocks $\varepsilon_t$. This is also aligned with our common sense that we invest based on the conditional volatility\footnote{Think about the BigData investment fever, people buy and sell similar projects and stocks very often.} and exogenous technology shocks. In the end, the conditional volatility evolves with the previous innovations and itself.
 
+In conclusion, the investment is driven by two factors: financial risk (conditional volatility) and exogenous technology shocks. Meanwhile, financial risk (conditional volatility) also involves with exogenous technology shocks. The whole mechanism behind (4.6) to (4.8) can be understood as a technology revealing process with the buffer.
 
-
+Assume positive and negative technology shocks $\varepsilon_t$ have the same effects for the moment, people will only continue increase the investment condition on the cases that profound technology shocks keep come incessantly\footnote{That's the beautify of autoregressive conditional heteroskedasticity model.}.
 
 
 
