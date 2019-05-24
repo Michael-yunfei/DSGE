@@ -1,0 +1,261 @@
+\documentclass[12pt]{article}
+% add some essential packages, some might not be used
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{natbib}
+\usepackage{authblk}
+\usepackage{ragged2e}
+\usepackage{amsmath}
+\usepackage[a4paper,margin=1in,bottom=1.0in]{geometry}
+\usepackage{url}
+\usepackage{array}
+\usepackage{bbding}
+\usepackage{amssymb}
+\usepackage{graphicx}  % mini page function
+\usepackage{adjustbox}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{appendix} % appendix package
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[english]{babel}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{textgreek}
+\usepackage{bibentry}
+\nobibliography*
+\usepackage{lipsum}
+
+
+\usepackage{listings}
+\usepackage{wasysym}
+\usepackage{amsthm}
+\usepackage{framed}
+\usepackage{bm}
+\usepackage{booktabs}  % package for table line
+% \usepackage{amsrefs?}  % ams citation style package
+
+
+\usepackage{rotating} % for the horizontal page table
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{xcolor}
+
+\usepackage{tcolorbox} % package for making colorful box
+
+ \setlength{\parskip}{0.15cm} % change the paragraph spacing
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$} % set the bullet size as tiny
+
+% \newcommand*\rot{\rotatebox{90}} % for rotate text
+
+\usepackage{sectsty} %package for section size
+
+\sectionfont{\fontsize{14}{12}\selectfont} % Change the section font size
+
+\subsectionfont{\fontsize{13}{12}\selectfont}
+\subsubsectionfont{\fontsize{12}{12}\selectfont}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} % new command
+
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[subsection]{Definition}
+\newtheorem{axiom}[subsection]{Axiom}
+\newtheorem{example}[subsubsection]{Example}
+\newtheorem{theorem}[subsection]{Theorem}
+\newtheorem{proposition}[subsection]{Proposition}
+\newtheorem{lemma}[subsection]{Lemma}
+
+
+\usepackage{courier}
+
+% tikzsetting
+
+\usetikzlibrary{shapes,decorations,arrows,calc,arrows.meta,fit,positioning}
+
+\tikzset{
+    -Latex,auto,node distance =1 cm and 1 cm,semithick,
+    state/.style ={ellipse, draw, minimum width = 0.7 cm},
+    point/.style = {circle, draw, inner sep=0.04cm,fill,node contents={}},
+    bidirected/.style={Latex-Latex,dashed},
+    el/.style = {inner sep=2pt, align=left, sloped}
+}
+
+\lstset{language=R}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{RGB}{145, 153, 165}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{gray},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{RoyalBlue},       % keyword style
+  language=R,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{gray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+
+
+% Define colors
+\definecolor{cmd}{HTML}{F7F7F9}
+\DeclareMathOperator{\di}{d\!}
+
+\newcommand{\pr}{$\mathbb{P}$}
+\newcommand{\pre}{\mathbb{P}}
+
+\begin{document}
+
+\title{Real Business Cycle Model with Investment Risk}
+\author{Michael}
+\date{}
+\maketitle
+
+\begin{abstract}
+  In the notes - \textit{Investment Risk}, I have examined the time series characteristics of US real investment and found that investment should be modeled with autoregressive conditional heteroskedasticity method. In this short collection notes, I will try to embed investment risk into the real business cycles (RBC) model.
+\end{abstract}
+
+
+\section{The Decentralized Model without Investment Risk}
+
+I will assume that firms own the capital stock and find the equilibrium conditions for the model. Let's start it from the household problem:
+\begin{align}
+  & \max_{C_t, N_t, B_{t+1}} E_0 \sum_{t = 0}^\infty \beta^t [\ln C_t + \theta \ln(1- N_t)] \\
+  s.t. \ & C_t + B_{t+1} \leq w_t N_t + \Pi_t + (1 + r_{t-1}) B_t
+\end{align}
+To solve this problem, we form the lagrangian:
+\begin{gather*}
+  \mathcal{L} = \beta^t \{ [\ln C_t + \theta \ln (1- N_t)] + \lambda_t [w_t N_t + \Pi_t + (1 +r_{t-1})B_t  - C_t - B_{t+1}]\} + \\
+  \beta^{t+1}\{ [\ln C_{t+1} + \theta \ln (1- N_{t+1})] + \lambda_{t+1} [w_{t+1} N_{t+1} + \Pi_{t+1} + (1 +r_{t})B_{t+1}  - C_{t+1} - B_{t+2}]\}
+\end{gather*}
+The first order conditions characterizing an interior solution are:
+\begin{align}
+  \frac{\partial L}{\partial C_t} & = \frac{1}{C_t} - \lambda_t = 0 \Leftrightarrow \frac{1}{C_t} = \lambda_t  \\
+  \frac{\partial L}{\partial N_t} & = \frac{-\theta}{1- N_t} + \lambda_t w_t \Leftrightarrow \frac{\theta}{1 - N_t} = \lambda_t w_t \\
+  \frac{\partial L}{\partial B_{t+1}} & = - \beta^t \lambda_t + \beta^{t+1}\lambda_{t+1}(1+r_t) = 0 \Leftrightarrow \lambda_t = \beta E_t \lambda_{t+1}(1+r_t)
+\end{align}
+Combine them, we can have:
+\begin{align}
+  \theta C_t & = w_t ( 1- N_t ) \\
+  \frac{1}{C_t} & = \beta E_t \frac{1}{C_{t+1}} (1 + r_t )
+\end{align}
+In addition, there is the transversality condition:
+\begin{align}
+  \lim_{t \to \infty} \beta^t B_{t+1}\frac{1}{C_t} = 0
+\end{align}
+
+Now, we solve the firms' problem by define the discount factor first:
+\begin{align}
+  M_t = \beta^t \frac{E_0 u'(C_t)}{u'(C_0)}
+\end{align}
+
+Firms are trying to solve the following problem:
+\begin{align}
+  \max_{N_t, I_t, D_{t+1}} V_0 & = E_0 \sum_{t=0}^\infty M_t [A_t K_t^\alpha N_t^{1-\alpha} - w_t N_t - I_t + D_{t+1} - (1+r_{t-1})D_t] \\
+  s.t. \ K_{t+1} & = I_t + (1- \delta) K_t
+\end{align}
+Again, we can form the lagrangian to solve the problem and first order conditions are
+\begin{align}
+  \frac{\partial V_0}{\partial N_t} & = 0 \Leftrightarrow (1-\alpha) A_t K_t^\alpha N_t^{-\alpha} = w_t \\
+  \frac{\partial V_0}{\partial K_{t+1}} & = 0 \Leftrightarrow M_t = E_t M_{t+1} [\alpha A_{t+1} K_{t+1}^{\alpha - 1} N_{t+1}^{1-\alpha} + (1-\delta)] \\
+  \frac{\partial V_0}{D_{t+1}} & = 0 \Leftrightarrow M_t = E_t M_{t+1} (1 + r_t)
+\end{align}
+
+To close the model, we assume the financial market is frictionless and the exogenous technology follows the following process:
+\begin{align}
+  \ln A_t = \rho \ln A_{t-1} + \varepsilon_t
+\end{align}
+
+Collect all first order conditions, we can get:
+\begin{gather}
+  \frac{1}{C_t} = \beta E_t \big (\frac{1}{C_{t+1}} [\alpha A_{t+1} K_{t+1}^\alpha N_{t+1}^{1-\alpha} + (1-\delta)] \big) \\
+  \frac{\theta}{1 - N_t} = \frac{1}{C_t} (1-\alpha) A_t K_t^\alpha N_t^{-\alpha} \\
+  K_{t+1} = A_t K_t^\alpha N_t^{1-\alpha} - C_t + (1-\delta) K_t \\
+  \ln A_t = \rho \ln A_{t-1} + \varepsilon_t \\
+  Y_t = A_t K_t^\alpha N_t^{1-\alpha} \\
+  Y_t = C_t + I_t \\
+  \frac{1}{C_t} = \beta E_t \frac{1}{C_{t+1}}(1+r_t) \\
+  w_t = (1-\alpha)A_t K_t^\alpha N_t^{-\alpha} \\
+  r_t = \alpha A_t K_t^{\alpha - 1} N_t^{1-\alpha}
+\end{gather}
+
+Later, we will discuss the calibrations for this model, and put the code into Dynare to see the IRFs.
+
+\newpage
+\section{The Decentralized Model with Investment Risk}
+
+Now, we embed the RBC in section 1 with investment risk. Let's start a simplified model:
+\begin{align}
+  \max_{N_t, I_t, D_{t+1}} V_0 & = E_0 \sum_{t=0}^\infty M_t [A_t K_t^\alpha N_t^{1-\alpha} - w_t N_t - I_t + D_{t+1} - (1+r_{t-1})D_t] \\
+  s.t. \ K_{t+1} & = I_t + (1- \delta) K_t  \\
+  I_t & = (1 + \sigma_t \varepsilon_t) I_{t-1}
+\end{align}
+
+Again, we form the lagrangian to solve this problem
+\begin{gather*}
+  \mathcal{L} = M_t \{ A_tK_t^\alpha N_t^{1-\alpha} - w_t N_t - I_t + D_{t+1} - (1+r_{t-1}) D_t + \\
+  \lambda_t^1 [ I_t + (1-\delta)K_t - K_{t+1}] + \\
+  \lambda_t^2 \big[\sqrt{\omega + \phi \big(\frac{I_t}{I_{t-1} } - 1\big)^2 + \varphi \sigma_{t-1}^2}\varepsilon_t - \frac{I_t}{I_{t-1}} + 1 \big] \} + \\
+  M_{t+1} \{ A_{t+1}K_{t+1}^\alpha N_{t+1}^{1-\alpha} - w_{t+1} N_{t+1} - I_{t+1} + D_{t+2} - (1+r_{t}) D_{t+1} + \\
+  \lambda_{t+1}^1 [ I_{t+1} + (1-\delta)K_{t+1} - K_{t+2}] + \\
+  \lambda_{t+1}^2 \big[\sqrt{\omega + \phi \big(\frac{I_{t+1}}{I_{t} } - 1\big)^2 + \varphi \sigma_{t}^2}\varepsilon_{t+1} - \frac{I_{t+1}}{I_{t}} + 1 \big] \}
+\end{gather*}
+
+
+\textbf{Remark}: I realise that I should focus on those two equatinos:
+\begin{align*}
+  \ln A_t & = \ln A_{t-1} + \sigma_t \varepsilon_t \\
+  \sigma_t^2 & = \omega + \phi \sigma_{t-1}^2 + \varphi \varepsilon_{t-1}^2
+\end{align*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\bibliography{/Users/Michael/Documents/DSGE/dsge.bib}
+\bibliographystyle{apalike}
+\end{document}

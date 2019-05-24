@@ -1,0 +1,89 @@
+Starting Dynare (version 4.5.6).
+Starting preprocessing of the model file ...
+Found 4 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+done
+Preprocessing completed.
+
+STEADY-STATE RESULTS:
+
+c 		 0.793902
+k 		 10.2696
+n 		 0.331892
+z 		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+            0.95             0.95                0
+          0.9514           0.9514                0
+           1.062            1.062                0
+       4.087e+18       -4.087e+18                0
+             Inf              Inf                0
+
+
+There are 3 eigenvalue(s) larger than 1 in modulus 
+for 3 forward-looking variable(s)
+
+The rank condition is verified.
+
+
+MODEL SUMMARY
+
+  Number of variables:         4
+  Number of stochastic shocks: 1
+  Number of state variables:   2
+  Number of jumpers:           3
+  Number of static variables:  0
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables           e
+e            0.000100
+
+POLICY AND TRANSITION FUNCTIONS
+                                   c               k               n               z
+Constant                    0.793874       10.269650        0.331906               0
+(correction)               -0.000028        0.000058        0.000014               0
+k(-1)                       0.041667        0.951446       -0.008169               0
+z(-1)                       0.306067        1.143748        0.226601        0.950000
+e                           0.322175        1.203945        0.238528        1.000000
+k(-1),k(-1)                -0.000745       -0.000302        0.000311               0
+z(-1),k(-1)                 0.008268        0.033037        0.003380               0
+z(-1),z(-1)                 0.108535        0.714976       -0.017261               0
+e,e                         0.120260        0.792217       -0.019126               0
+k(-1),e                     0.008704        0.034776        0.003558               0
+z(-1),e                     0.228494        1.505212       -0.036339               0
+
+
+APPROXIMATED THEORETICAL MOMENTS (HP filter, lambda = 1600)
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+c              0.7949     0.0048     0.0000
+k             10.2943     0.0553     0.0031
+n              0.3318     0.0031     0.0000
+z             -0.0000     0.0130     0.0002
+
+
+
+APPROXIMATED MATRIX OF CORRELATIONS (HP filter, lambda = 1600)
+Variables         c       k       n       z
+c            1.0000  0.7238  0.8021  0.8798
+k            0.7238  1.0000  0.1685  0.3088
+n            0.8021  0.1685  1.0000  0.9896
+z            0.8798  0.3088  0.9896  1.0000
+
+
+
+APPROXIMATED COEFFICIENTS OF AUTOCORRELATION (HP filter, lambda = 1600)
+Order         1       2       3       4       5
+c        0.8043  0.6152  0.4385  0.2783  0.1373
+k        0.9588  0.8596  0.7225  0.5643  0.3981
+n        0.7060  0.4597  0.2578  0.0965 -0.0285
+z        0.7133  0.4711  0.2711  0.1098 -0.0163
+Total computing time : 0h00m10s

@@ -1,0 +1,162 @@
+Starting Dynare (version 4.5.6).
+Starting preprocessing of the model file ...
+Substitution of exo lags: added 1 auxiliary variables and equations.
+Found 10 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+
+STEADY-STATE RESULTS:
+
+Ct              		 0.178172
+Yt              		 0.513494
+Kt              		 2.94673
+Nt              		 -1.10866
+It              		 -0.742151
+Wt              		 1.11133
+Rt              		 -3.34953
+At              		 0
+sigmat          		 1.07648
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0                0                0
+          0.8321           0.8321                0
+          0.9595           0.9595                0
+            0.96             0.96                0
+           1.053            1.053                0
+       7.294e+16       -7.294e+16                0
+
+
+There are 2 eigenvalue(s) larger than 1 in modulus 
+for 2 forward-looking variable(s)
+
+The rank condition is verified.
+
+
+MODEL SUMMARY
+
+  Number of variables:         10
+  Number of stochastic shocks: 1
+  Number of state variables:   4
+  Number of jumpers:           2
+  Number of static variables:  4
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables        e_at
+e_at         0.000052
+
+POLICY AND TRANSITION FUNCTIONS
+                                  Ct              Yt              Kt              Nt              It              Wt              Rt              At          sigmat
+Constant                    0.178172        0.513494        2.946728       -1.108663       -0.742151        1.111331       -3.349525               0        1.076481
+Kt(-1)                      0.609639        0.259072        0.959478       -0.234880       -0.620887        0.493952       -0.740928               0               0
+At(-1)                      0.378757        1.350735        0.094762        0.651226        3.790500        0.699510        1.350735        0.960000               0
+sigmat(-1)                         0               0               0               0               0               0               0               0        0.832100
+e_at(-1)                           0               0               0               0               0               0               0               0        0.180714
+e_at                        1.157708        4.128658        0.289651        1.990536       11.586040        2.138121        4.128658        2.934336               0
+
+
+THEORETICAL MOMENTS (HP filter, lambda = 1600)
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+Ct             0.1782     0.0124     0.0002
+Yt             0.5135     0.0389     0.0015
+Kt             2.9467     0.0097     0.0001
+Nt            -1.1087     0.0188     0.0004
+It            -0.7422     0.1089     0.0119
+Wt             1.1113     0.0207     0.0004
+Rt            -3.3495     0.0394     0.0016
+At             0.0000     0.0276     0.0008
+sigmat         1.0765     0.0016     0.0000
+
+CONDITIONAL VARIANCE DECOMPOSITION (in percent)
+Period 1:
+            e_at
+Ct        100.00
+Yt        100.00
+Kt        100.00
+Nt        100.00
+It        100.00
+Wt        100.00
+Rt        100.00
+At        100.00
+sigmat       NaN
+Period 4:
+            e_at
+Ct        100.00
+Yt        100.00
+Kt        100.00
+Nt        100.00
+It        100.00
+Wt        100.00
+Rt        100.00
+At        100.00
+sigmat    100.00
+Period 8:
+            e_at
+Ct        100.00
+Yt        100.00
+Kt        100.00
+Nt        100.00
+It        100.00
+Wt        100.00
+Rt        100.00
+At        100.00
+sigmat    100.00
+Period 12:
+            e_at
+Ct        100.00
+Yt        100.00
+Kt        100.00
+Nt        100.00
+It        100.00
+Wt        100.00
+Rt        100.00
+At        100.00
+sigmat    100.00
+Period 40:
+            e_at
+Ct        100.00
+Yt        100.00
+Kt        100.00
+Nt        100.00
+It        100.00
+Wt        100.00
+Rt        100.00
+At        100.00
+sigmat    100.00
+
+
+
+MATRIX OF CORRELATIONS (HP filter, lambda = 1600)
+Variables        Ct      Yt      Kt      Nt      It      Wt      Rt      At  sigmat
+Ct           1.0000  0.9072  0.7066  0.8134  0.8501  0.9653  0.7757  0.8780  0.6027
+Yt           0.9072  1.0000  0.3435  0.9826  0.9928  0.9856  0.9692  0.9979  0.7145
+Kt           0.7066  0.3435  1.0000  0.1632  0.2281  0.4974  0.1015  0.2818  0.1437
+Nt           0.8134  0.9826  0.1632  1.0000  0.9978  0.9371  0.9981  0.9926  0.7222
+It           0.8501  0.9928  0.2281  0.9978  1.0000  0.9581  0.9918  0.9985  0.7223
+Wt           0.9653  0.9856  0.4974  0.9371  0.9581  1.0000  0.9136  0.9725  0.6859
+Rt           0.7757  0.9692  0.1015  0.9981  0.9918  0.9136  1.0000  0.9831  0.7191
+At           0.8780  0.9979  0.2818  0.9926  0.9985  0.9725  0.9831  1.0000  0.7200
+sigmat       0.6027  0.7145  0.1437  0.7222  0.7223  0.6859  0.7191  0.7200  1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION (HP filter, lambda = 1600)
+Order          1       2       3       4       5
+Ct        0.8023  0.6127  0.4366  0.2776  0.1380
+Yt        0.7218  0.4847  0.2869  0.1259 -0.0016
+Kt        0.9602  0.8637  0.7299  0.5750  0.4116
+Nt        0.7110  0.4675  0.2668  0.1055 -0.0203
+It        0.7129  0.4705  0.2703  0.1090 -0.0171
+Wt        0.7457  0.5227  0.3313  0.1708  0.0398
+Rt        0.7113  0.4680  0.2673  0.1060 -0.0199
+At        0.7161  0.4756  0.2763  0.1151 -0.0115
+sigmat    0.6501  0.3767  0.1680  0.0136 -0.0961
+Total computing time : 0h00m00s
