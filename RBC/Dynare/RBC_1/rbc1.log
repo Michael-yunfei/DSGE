@@ -1,0 +1,46 @@
+Starting Dynare (version 4.5.6).
+Starting preprocessing of the model file ...
+Found 11 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+{Undefined function or variable 'calibration'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('rbc1', '/Users/Michael/Documents/DSGE/RBC/Dynare/RBC_1/rbc1.m', 139)" style="font-weight:bold">rbc1</a> (<a href="matlab: opentoline('/Users/Michael/Documents/DSGE/RBC/Dynare/RBC_1/rbc1.m',139,0)">line 139</a>)
+[param,ss] = calibration;
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', '/Applications/Dynare/4.5.6/matlab/dynare.m', 235)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('/Applications/Dynare/4.5.6/matlab/dynare.m',235,0)">line 235</a>)
+evalin('base',fname) ;
+} 
+dynare RBC_Nonlinear.mod
+
+Configuring Dynare ...
+[mex] Generalized QZ.
+[mex] Sylvester equation solution.
+[mex] Kronecker products.
+[mex] Sparse kronecker products.
+[mex] Local state space iteration (second order).
+[mex] Bytecode evaluation.
+[mex] k-order perturbation solver.
+[mex] k-order solution simulation.
+[mex] Quasi Monte-Carlo sequence (Sobol).
+[mex] Markov Switching SBVAR.
+
+Using 64-bit preprocessor
+Starting Dynare (version 4.5.6).
+Starting preprocessing of the model file ...
+Found 8 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+

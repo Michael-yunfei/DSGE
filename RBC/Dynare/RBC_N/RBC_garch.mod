@@ -14,17 +14,18 @@ varexo e_at; % define the exogenous technology shock
 % all the parameters presented in the model, even though some of them do not matter
 % for the log-linearized system.
 
-parameters alpha beta del rho_a sig_a n_ss an omega phi varphi; 
+parameters alpha beta del rho_a sig_a n_ss an omega phi varphi gbeta; 
 
 alpha=.4; % capital share in production function
 beta =.99;  % subjective discounting rate
 del  =.025;  % depreciation rate
 rho_a=.96; % AR(1) coefficient of production technolgoy process
-sig_a=.0072; % standard error of the tech shock
+sig_a=0.0072; % standard error of the tech shock
 n_ss = .33; % steady-state labor
 omega = 0.00015;
-phi = 0.8321;
-varphi = 0.2463;  %0.1463
+phi = 0.1362;
+varphi = -0.1538;
+gbeta = 0.9681; 
 
 % compute the accurate steady state according to the lecture notes
 KY  = alpha*beta/(1-beta*(1-del));
@@ -37,7 +38,7 @@ C_ss= Y_ss*CY;
 I_ss= Y_ss*IY;
 W_ss= (1-alpha)*Y_ss/n_ss;
 R_ss= alpha*Y_ss/K_ss;
-sigmat_ss = omega/(1 - phi);
+sigmat_ss = omega/(1 - phi - varphi - gbeta);
 
 %==========================================================================
 
@@ -56,9 +57,9 @@ exp(Wt) = (1-alpha)*exp(Yt-Nt);  % labor demand
 
 exp(Rt) = alpha*exp(Yt-Kt(-1)); % capital demand
 
-At=rho_a*At(-1)+ exp(sigmat)*e_at; %tech shock
+At=rho_a*At(-1)+ sigmat*e_at; %tech shock
 
-exp(sigmat) = omega/2 + phi*exp(sigmat(-1)) + 2*varphi*exp(sigmat(-1)*e_at(-1));
+sigmat^2 = omega + phi*(abs(e_at(-1) - sqrt(2/3.1415926))) + varphi*e_at(-1) + gbeta*sigmat(-1)^2;
 
 end;
 

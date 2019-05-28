@@ -69,9 +69,9 @@ end;
 
 steady;
 
-check;
+% check;
 
-stoch_simul(hp_filter = 1600);
+stoch_simul(hp_filter = 1600, order =1, irf=30);
 
 %----------------------------------------------------------------
 % 5. Some Results
