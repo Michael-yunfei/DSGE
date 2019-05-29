@@ -106,7 +106,8 @@ spx$Date <- as.Date(spx$Date)
 spx_sb <- spx[which(spx$Date >=start_date & spx$Date <= end_date),]
 spx_sb$quarter <- as.yearqtr(spx_sb$Date)
 SP500 <- select(spx_sb, quarter, Close)
-names(SP500) <- c('quarter', 'SP500In')
+SP500$SP500In <- log(SP500$Close)
+SP500 <- select(SP500, quarter, SP500In)
 
 quarterData <- left_join(quarterData, SP500, by = 'quarter')
 
@@ -125,14 +126,14 @@ quarterData <- left_join(quarterData, SP500, by = 'quarter')
 # Labor share: 'labshare'
 # real wage: 'Rwage'
 # TFP: 'TFP'
-# SP500: SP500In
+# SP500: SP500In (log)
 # real interest rate: Rinr = InRt - Infla
 
 names(quarterData)
 
 # 'date' 'A939RX0Q048SBEA' 'GDP' 'GDPDEF' 'PCND' 'PCESV' 'PCDG' 'GPDI' 'OPHNFB' 'PRS85006173' 'PRS85006023' 'quarter' 'RGDP' 'RCon' 'RInv' 'CE16OVMean' 'UNRATEMean' 'FEDFUNDSMean' 'CNP16OV' 'Hours' 'Infla' 'InRt' 'Productivity' 'labshare' 'Rwage' 'dtfp' 'dutil' 'dtfp_util' 'TFP' 'SP500In'
 
-varmodelData <- select(quarterData, date, quarter, RGDP, RInv, Hours, Infla, InRt,
+varmodelData <- select(quarterData, date, quarter, RGDP, RCon, RInv, Hours, Infla, InRt,
                         Productivity, labshare, Rwage, TFP, SP500In)
 varmodelData$Rinr <- varmodelData$InRt - varmodelData$Infla
 
@@ -140,11 +141,11 @@ varmodelData$Rinr <- varmodelData$InRt - varmodelData$Infla
 write_csv(varmodelData, './VAR/US_Quarter_Data.csv')
 
 
-
 ###############################################################################
 # Build the VAT model
 ###############################################################################
-na.omit(varmodelData)
+varjmulti <- na.omit(varmodelData)
+write_csv(varjmulti, './VAR/varjmulti.csv')
 
 
 
