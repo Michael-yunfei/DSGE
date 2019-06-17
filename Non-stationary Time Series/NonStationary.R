@@ -167,4 +167,111 @@ legend(200, 60, legend=c('Unit Root Y with series correlation',
       col=c('black', 'red', 'blue'), lty=1:3)
 dev.off()
 
+###############################################################################
+# Unit Root test for real GDP, investment and consumption
+###############################################################################
+
+# prepare the dataset
+
+library(fredr)
+library(purrr)
+library(tidyverse)
+library(zoo)
+library(tseries)
+
+getwd()
+
+# set API keys (you have to request one by yourself)
+# google: request fredr API key
+
+fredr_set_key("c7cb8e359f4222145a267cad0c2e3abe")
+
+# write a function to get a list of quarter series data from FREDR
+fredr_get <- function (index, start, end) {
+  # input: a vector of index
+  #        a vector of date "1948-01-01"
+
+  index_length <- length(index)
+
+  # initialize a dataframe
+  date <- seq.Date(as.Date(start), as.Date(end), by = "quarter")
+  data <- data.frame(date)
+
+  # download and collect the datasets
+  for (i in 1:index_length) {
+    temp_data <- fredr(series_id = index[i],
+                  observation_start = as.Date(start),
+                  observation_end = as.Date(end))
+    temp_data <- temp_data[, c(1, 3)]
+    data <- left_join(data, temp_data, by = "date")
+
+  }
+  names(data) <- c("date", index)
+
+  # return dataset
+  return(data)
+}
+
+# Units:Billions of Dollars; Quarterly
+# Data collection
+# GDP - nominal GDP
+# GDPC1 - Real GDP
+# PCEC - nominal consumption
+# PCECC96 - real consumption
+# GDPI - nominal investment
+# GDPIC1 - real investment
+
+dataindex <- c("GDP", "GDPC1", "PCEC", "PCECC96", "GPDI", "GPDIC1")
+us_dataset <- fredr_get(dataindex, "1948-01-01", "2017-12-31")
+head(us_dataset)
+tail(us_dataset)
+# take the log
+datalog <- log(us_dataset[, 2:7])
+# creat new index
+logindex <- c()
+for (i in dataindex) {
+  index_temp <- paste("log", i, sep="")
+  logindex <- c(logindex, index_temp)
+}
+logindex
+names(datalog) <- logindex
+us_dataset <- cbind.data.frame(us_dataset, datalog)
+dim(us_dataset)  # 280 13
+head(us_dataset)
+# Check the characteristics of those time series
+us_ts <- zoo(us_dataset[, 2:13], us_dataset$date)
+head(us_ts)
+tail(us_ts)
+plot(us_ts$GDPC1)
+
+library(urca)
+us_gdp_ur <- ur.df(coredata(us_ts$logGDPC1), selectlags='AIC', type="trend")
+summary(us_gdp_ur)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # End of Code
