@@ -22,16 +22,16 @@ setwd('./TFP-Solow')
 # Load data
 data("pwt9.0")
 
-ptw_data <- filter(pwt9.0, country=='United States of America')
-ptw_data <- select(ptw_data, year, isocode, rgdpna, rkna, emp, labsh)
+ptw_data <- dplyr::filter(pwt9.0, country=='United States of America')
+ptw_data <- dplyr::select(ptw_data, year, isocode, rgdpna, rkna, emp, labsh)
 ptw_data <- na.omit(ptw_data)
 
-ptw_data <- mutate(ptw_data, y_pc = log(rgdpna / emp), # GDP per worker
+ptw_data <- dplyr::mutate(ptw_data, y_pc = log(rgdpna / emp), # GDP per worker
          k_pc = log(rkna / emp), # Capital per worker
          a = 1 - labsh) # Capital share
 
-ptw_data <- mutate(ptw_data, g = (y_pc - lag(y_pc)) * 100, # the growth rate of GDP per capita
-         dk = (k_pc - lag(k_pc)) * 100, # the growth rate of capital per capita
+ptw_data <- dplyr::mutate(ptw_data, g = (y_pc - dplyr::lag(y_pc)) * 100,
+         dk = (k_pc - dplyr::lag(k_pc)) * 100, # the growth rate of capital per capita
          dsolow = g - a * dk)
 ptw_data <- na.omit(ptw_data)
 # Once we get the Solow residual, let's examine it's properties
@@ -41,6 +41,10 @@ plot(ptw_tfp_gr)
 
 ptw_tfp <- cumsum(ptw_tfp_gr)/length(ptw_tfp_gr)
 plot(ptw_tfp)
+
+# Unit root test
+us_tfp_ur <- ur.df(coredata(ptw_tfp), selectlags='AIC', type="trend")
+summary(us_tfp_ur)
 
 # fit the ARCH model
 ptw_tfp_grdm <- ptw_tfp_gr - mean(ptw_tfp_gr)
