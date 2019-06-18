@@ -50,7 +50,8 @@ quarterIndex <- c('A939RX0Q048SBEA', 'GDP', 'GDPDEF', 'PCND',
 quarterData <- fredr_get(quarterIndex, "1950-01-01", "2017-12-31", "quarter")
 
 
-monthIndex <- c('CE16OV', 'CNP16OV', 'UNRATE', 'FEDFUNDS', 'M1SL', 'M2SL')
+monthIndex <- c('CE16OV', 'CNP16OV', 'UNRATE', 'FEDFUNDS', 'M1SL', 'M2SL',
+                 'AAA10YM', 'BAA10YM')
 
 monthData <- fredr_get(monthIndex, "1950-01-01", "2017-12-31", "month")
 
@@ -71,6 +72,8 @@ monthData$quarter <- as.yearqtr(monthData$date)
 quarterCE16OV <- summarise(group_by(monthData, quarter), CE16OVMean = mean(CE16OV))
 quarterUNRATE <- summarise(group_by(monthData, quarter), UNRATEMean = mean(UNRATE))
 quarterFEDFUNDS <- summarise(group_by(monthData, quarter), FEDFUNDSMean = mean(FEDFUNDS))
+quarterAAA10YM <- summarise(group_by(monthData, quarter), AAA10YMMean = mean(AAA10YM))
+quarterBAA10YM <- summarise(group_by(monthData, quarter), BAA10YMean = mean(BAA10YM))
 
 # the following three variables take the value at the end of period
 monthData$month <- as.yearmon(monthData$date)
@@ -81,10 +84,12 @@ quarterData <- left_join(quarterData, quarterCE16OV, by = 'quarter')
 quarterData <- left_join(quarterData, quarterUNRATE, by = 'quarter')
 quarterData <- left_join(quarterData, quarterFEDFUNDS, by = 'quarter')
 quarterData <- left_join(quarterData, quarterCNP16OV, by = 'quarter')
+quarterData <- left_join(quarterData, quarterAAA10YM, by = 'quarter')
+quarterData <- left_join(quarterData, quarterBAA10YM, by = 'quarter')
 
 quarterData$Hours <- log(quarterData$PRS85006023*quarterData$CE16OVMean/quarterData$CNP16OV)
-quarterData$Infla <- log(quarterData$GDPDEF/lag(quarterData$GDPDEF))
-quarterData$InRt <- quarterData$FEDFUNDSMean/100  #
+quarterData$Infla <- log(quarterData$GDPDEF/lag(quarterData$GDPDEF))*100
+quarterData$InRt <- quarterData$FEDFUNDSMean  #
 quarterData$Productivity <- quarterData$OPHNFB
 quarterData$labshare <- log(quarterData$PRS85006173)
 quarterData$Rwage <- log(quarterData$PRS85006173/quarterData$OPHNFB)
@@ -128,13 +133,21 @@ quarterData <- left_join(quarterData, SP500, by = 'quarter')
 # TFP: 'TFP'
 # SP500: SP500In (log)
 # real interest rate: Rinr = InRt - Infla
+# AAA10YM Moody's Seasoned Aaa Corporate Bond Yield Relative to Yield on 10-Year Treasury
+# Constant Maturity
+# BAA10YM  Moody's Seasoned Baa Corporate Bond Yield Relative to Yield on 10-Year Treasury
+# Constant Maturity
 
 names(quarterData)
 
-# 'date' 'A939RX0Q048SBEA' 'GDP' 'GDPDEF' 'PCND' 'PCESV' 'PCDG' 'GPDI' 'OPHNFB' 'PRS85006173' 'PRS85006023' 'quarter' 'RGDP' 'RCon' 'RInv' 'CE16OVMean' 'UNRATEMean' 'FEDFUNDSMean' 'CNP16OV' 'Hours' 'Infla' 'InRt' 'Productivity' 'labshare' 'Rwage' 'dtfp' 'dutil' 'dtfp_util' 'TFP' 'SP500In'
+# 'date' 'A939RX0Q048SBEA' 'GDP' 'GDPDEF' 'PCND' 'PCESV' 'PCDG' 'GPDI' 'OPHNFB' 'PRS85006173' 'PRS85006023' 'quarter' 'RGDP' 'RCon' 'RInv' 'CE16OVMean' 'UNRATEMean' 'FEDFUNDSMean' 'CNP16OV' 'AAA10YMMean' 'BAA10YMean' 'Hours' 'Infla' 'InRt' 'Productivity' 'labshare' 'Rwage' 'dtfp' 'dutil' 'dtfp_util' 'TFP' 'SP500In'
+
+dim(quarterData)
+
 
 varmodelData <- select(quarterData, date, quarter, RGDP, RCon, RInv, Hours, Infla, InRt,
-                        Productivity, labshare, Rwage, TFP, SP500In)
+                        AAA10YMMean, BAA10YMean, Productivity,
+                        labshare, Rwage, TFP, SP500In)
 varmodelData$Rinr <- varmodelData$InRt - varmodelData$Infla
 
 # save the full dataset
@@ -142,11 +155,11 @@ write_csv(varmodelData, './VAR/US_Quarter_Data.csv')
 
 
 ###############################################################################
-# Build the VAT model
+# Build the VAR model
 ###############################################################################
 varjmulti <- na.omit(varmodelData)
 write_csv(varjmulti, './VAR/varjmulti.csv')
-
+write_csv(varjmulti, './VAR/varStata.csv')
 
 
 
