@@ -44,7 +44,7 @@ fredr_get <- function (index, start, end, freq) {
   return(data)
 }
 
-quarterIndex <- c('A939RX0Q048SBEA', 'GDP', 'GDPDEF', 'PCND',
+quarterIndex <- c('A939RX0Q048SBEA', 'GDP', 'GDPDEF', 'PCND', 'COMPRNFB',
                   'PCESV', 'PCDG', 'GPDI', 'OPHNFB', 'PRS85006173', 'PRS85006023')
 
 quarterData <- fredr_get(quarterIndex, "1950-01-01", "2017-12-31", "quarter")
@@ -87,12 +87,13 @@ quarterData <- left_join(quarterData, quarterCNP16OV, by = 'quarter')
 quarterData <- left_join(quarterData, quarterAAA10YM, by = 'quarter')
 quarterData <- left_join(quarterData, quarterBAA10YM, by = 'quarter')
 
+
 quarterData$Hours <- log(quarterData$PRS85006023*quarterData$CE16OVMean/quarterData$CNP16OV)
-quarterData$Infla <- log(quarterData$GDPDEF/lag(quarterData$GDPDEF))*100
-quarterData$InRt <- quarterData$FEDFUNDSMean  #
+quarterData$Infla <- log(quarterData$GDPDEF/lag(quarterData$GDPDEF))
+quarterData$InRt <- quarterData$FEDFUNDSMean/400  #
 quarterData$Productivity <- quarterData$OPHNFB
 quarterData$labshare <- log(quarterData$PRS85006173)
-quarterData$Rwage <- log(quarterData$PRS85006173/quarterData$OPHNFB)
+quarterData$Rwage <- log(quarterData$COMPRNFB)
 
 # TFP
 
@@ -140,7 +141,7 @@ quarterData <- left_join(quarterData, SP500, by = 'quarter')
 
 names(quarterData)
 
-# 'date' 'A939RX0Q048SBEA' 'GDP' 'GDPDEF' 'PCND' 'PCESV' 'PCDG' 'GPDI' 'OPHNFB' 'PRS85006173' 'PRS85006023' 'quarter' 'RGDP' 'RCon' 'RInv' 'CE16OVMean' 'UNRATEMean' 'FEDFUNDSMean' 'CNP16OV' 'AAA10Y' 'BAA10Y' 'Hours' 'Infla' 'InRt' 'Productivity' 'labshare' 'Rwage' 'dtfp' 'dutil' 'dtfp_util' 'TFP' 'SP500In'
+# 'date' 'A939RX0Q048SBEA' 'GDP' 'GDPDEF' 'PCND' 'COMPRNFB' 'PCESV' 'PCDG' 'GPDI' 'OPHNFB' 'PRS85006173' 'PRS85006023' 'quarter' 'RGDP' 'RCon' 'RInv' 'CE16OVMean' 'UNRATEMean' 'FEDFUNDSMean' 'CNP16OV' 'AAA10Y' 'BAA10Y' 'Hours' 'Infla' 'InRt' 'Productivity' 'labshare' 'Rwage' 'dtfp' 'dutil' 'dtfp_util' 'TFP' 'SP500In'
 
 
 dim(quarterData)
