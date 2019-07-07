@@ -147,6 +147,15 @@ acf(coredata((diff(spx_ts$logClose))^2), main="ACF of S&P500 Volatility",
 ylim=c(0, 0.6))
 dev.off()
 
+pdf("/Users/Michael/Documents/DSGE/Figures/AcfInv.pdf",
+      width = 7.6, height = 5.3)
+par(mfrow = c(1, 1), cex = 0.8)
+acf(coredata((diff(us_ts$logGPDIC1))^2), main="ACF of Investment Volatility",
+      ylim=c(0, 0.6))
+dev.off()
+
+length(diff(us_ts$logGPDIC1))
+
 # Caution: it's quarterly time series, we see the volatility autocorrelation
 #          for SP500 isn't that strong
 

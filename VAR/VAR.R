@@ -72,8 +72,8 @@ monthData$quarter <- as.yearqtr(monthData$date)
 quarterCE16OV <- summarise(group_by(monthData, quarter), CE16OVMean = mean(CE16OV))
 quarterUNRATE <- summarise(group_by(monthData, quarter), UNRATEMean = mean(UNRATE))
 quarterFEDFUNDS <- summarise(group_by(monthData, quarter), FEDFUNDSMean = mean(FEDFUNDS))
-quarterAAA10YM <- summarise(group_by(monthData, quarter), AAA10YMMean = mean(AAA10YM))
-quarterBAA10YM <- summarise(group_by(monthData, quarter), BAA10YMean = mean(BAA10YM))
+quarterAAA10YM <- summarise(group_by(monthData, quarter), AAA10Y = mean(AAA10YM))
+quarterBAA10YM <- summarise(group_by(monthData, quarter), BAA10Y = mean(BAA10YM))
 
 # the following three variables take the value at the end of period
 monthData$month <- as.yearmon(monthData$date)
@@ -140,13 +140,14 @@ quarterData <- left_join(quarterData, SP500, by = 'quarter')
 
 names(quarterData)
 
-# 'date' 'A939RX0Q048SBEA' 'GDP' 'GDPDEF' 'PCND' 'PCESV' 'PCDG' 'GPDI' 'OPHNFB' 'PRS85006173' 'PRS85006023' 'quarter' 'RGDP' 'RCon' 'RInv' 'CE16OVMean' 'UNRATEMean' 'FEDFUNDSMean' 'CNP16OV' 'AAA10YMMean' 'BAA10YMean' 'Hours' 'Infla' 'InRt' 'Productivity' 'labshare' 'Rwage' 'dtfp' 'dutil' 'dtfp_util' 'TFP' 'SP500In'
+# 'date' 'A939RX0Q048SBEA' 'GDP' 'GDPDEF' 'PCND' 'PCESV' 'PCDG' 'GPDI' 'OPHNFB' 'PRS85006173' 'PRS85006023' 'quarter' 'RGDP' 'RCon' 'RInv' 'CE16OVMean' 'UNRATEMean' 'FEDFUNDSMean' 'CNP16OV' 'AAA10Y' 'BAA10Y' 'Hours' 'Infla' 'InRt' 'Productivity' 'labshare' 'Rwage' 'dtfp' 'dutil' 'dtfp_util' 'TFP' 'SP500In'
+
 
 dim(quarterData)
 
 
 varmodelData <- select(quarterData, date, quarter, RGDP, RCon, RInv, Hours, Infla, InRt,
-                        AAA10YMMean, BAA10YMean, Productivity,
+                        AAA10Y, BAA10Y, Productivity,
                         labshare, Rwage, TFP, SP500In)
 varmodelData$Rinr <- varmodelData$InRt - varmodelData$Infla
 
@@ -160,9 +161,6 @@ write_csv(varmodelData, './VAR/US_Quarter_Data.csv')
 varjmulti <- na.omit(varmodelData)
 write_csv(varjmulti, './VAR/varjmulti.csv')
 write_csv(varjmulti, './VAR/varStata.csv')
-
-
-
 
 
 
